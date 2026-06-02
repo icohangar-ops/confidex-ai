@@ -1,0 +1,16 @@
+node_modules/
+.next/
+out/
+artifacts/
+cache/
+typechain-types/
+coverage/
+.env
+.env.local
+.env.production
+*.log
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db

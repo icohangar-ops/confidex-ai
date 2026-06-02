@@ -1,0 +1,658 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 720" width="1440" height="720">
+  
+    <defs>
+      <!-- Background gradient -->
+      <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#0a0e27" />
+        <stop offset="50%" stop-color="#111638" />
+        <stop offset="100%" stop-color="#1a1f3a" />
+      </linearGradient>
+      <!-- Shield gradient -->
+      <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#0d2b3e" />
+        <stop offset="100%" stop-color="#0a1628" />
+      </linearGradient>
+      <!-- Emerald glow gradient -->
+      <radialGradient id="glowEmerald" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#00ffa3" stop-opacity="0.4" />
+        <stop offset="100%" stop-color="#00ffa3" stop-opacity="0" />
+      </radialGradient>
+      <!-- Teal glow -->
+      <radialGradient id="glowTeal" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#0ff" stop-opacity="0.3" />
+        <stop offset="100%" stop-color="#0ff" stop-opacity="0" />
+      </radialGradient>
+      <!-- Large center glow -->
+      <radialGradient id="centerGlow" cx="50%" cy="50%" r="35%">
+        <stop offset="0%" stop-color="#00ffa3" stop-opacity="0.15" />
+        <stop offset="60%" stop-color="#006644" stop-opacity="0.05" />
+        <stop offset="100%" stop-color="transparent" stop-opacity="0" />
+      </radialGradient>
+      <!-- Shield border gradient -->
+      <linearGradient id="shieldBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#00ffa3" />
+        <stop offset="50%" stop-color="#0ff" />
+        <stop offset="100%" stop-color="#00ffa3" />
+      </linearGradient>
+      <!-- Lock body gradient -->
+      <linearGradient id="lockGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#00ffa3" />
+        <stop offset="100%" stop-color="#10b981" />
+      </linearGradient>
+      <!-- Data stream gradient -->
+      <linearGradient id="streamGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#0ff" stop-opacity="0" />
+        <stop offset="30%" stop-color="#0ff" stop-opacity="0.6" />
+        <stop offset="70%" stop-color="#00ffa3" stop-opacity="0.6" />
+        <stop offset="100%" stop-color="#00ffa3" stop-opacity="0" />
+      </linearGradient>
+      <!-- Text glow filter -->
+      <filter id="textGlow" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="4" result="blur" />
+        <feMerge>
+          <feMergeNode in="blur" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+      <!-- Soft glow filter -->
+      <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="8" result="blur" />
+        <feMerge>
+          <feMergeNode in="blur" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+      <!-- Node glow -->
+      <filter id="nodeGlow" x="-100%" y="-100%" width="300%" height="300%">
+        <feGaussianBlur stdDeviation="3" result="blur" />
+        <feMerge>
+          <feMergeNode in="blur" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+      <!-- Grid pattern -->
+      <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+        <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#00ffa3" stroke-width="0.3" stroke-opacity="0.08" />
+      </pattern>
+    </defs>
+  
+  
+    <rect width="1440" height="720" fill="url(#bgGrad)" />
+    <rect width="1440" height="720" fill="url(#grid)" />
+    <rect width="1440" height="720" fill="url(#centerGlow)" />
+  
+  
+    <circle cx="200" cy="150" r="80" fill="#0ff" opacity="0.03" />
+    <circle cx="1200" cy="550" r="100" fill="#00ffa3" opacity="0.04" />
+    <circle cx="700" cy="100" r="60" fill="#0ff" opacity="0.03" />
+    <circle cx="350" cy="600" r="70" fill="#00ffa3" opacity="0.03" />
+    <circle cx="1100" cy="200" r="50" fill="#0ff" opacity="0.02" />
+    <circle cx="100" cy="400" r="40" fill="#00ffa3" opacity="0.03" />
+    <circle cx="1300" cy="400" r="55" fill="#0ff" opacity="0.03" />
+  
+  
+    <!-- Top-left corner -->
+    <path d="M 30 30 L 30 80" stroke="#0ff" stroke-width="1.5" opacity="0.3" />
+    <path d="M 30 30 L 80 30" stroke="#0ff" stroke-width="1.5" opacity="0.3" />
+    <!-- Top-right corner -->
+    <path d="M 1410 30 L 1410 80" stroke="#0ff" stroke-width="1.5" opacity="0.3" />
+    <path d="M 1410 30 L 1360 30" stroke="#0ff" stroke-width="1.5" opacity="0.3" />
+    <!-- Bottom-left corner -->
+    <path d="M 30 690 L 30 640" stroke="#0ff" stroke-width="1.5" opacity="0.3" />
+    <path d="M 30 690 L 80 690" stroke="#0ff" stroke-width="1.5" opacity="0.3" />
+    <!-- Bottom-right corner -->
+    <path d="M 1410 690 L 1410 640" stroke="#0ff" stroke-width="1.5" opacity="0.3" />
+    <path d="M 1410 690 L 1360 690" stroke="#0ff" stroke-width="1.5" opacity="0.3" />
+  
+  
+      <line x1="147.30375366545292" y1="280" x2="1263.135710244537" y2="280" stroke="url(#streamGrad)" stroke-width="1" opacity="0.25" />
+    
+  
+      <line x1="173.143233180808" y1="320" x2="1306.3935784673256" y2="320" stroke="url(#streamGrad)" stroke-width="1" opacity="0.25" />
+    
+  
+      <line x1="88.43501625896803" y1="360" x2="1317.4343569409575" y2="360" stroke="url(#streamGrad)" stroke-width="1" opacity="0.25" />
+    
+  
+      <line x1="164.60074225220418" y1="400" x2="1325.750218751494" y2="400" stroke="url(#streamGrad)" stroke-width="1" opacity="0.25" />
+    
+  
+      <line x1="169.44982792082772" y1="440" x2="1272.031742074305" y2="440" stroke="url(#streamGrad)" stroke-width="1" opacity="0.25" />
+    
+  
+      <line x1="100.75507868671082" y1="480" x2="1358.0998061223024" y2="480" stroke="url(#streamGrad)" stroke-width="1" opacity="0.25" />
+    
+  
+        <text x="110.49482729903103" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.17424847258913118">1</text>
+        <text x="118.49482729903103" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.17424847258913118">1</text>
+        <text x="126.49482729903103" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.17424847258913118">0</text>
+      
+  
+        <text x="233.4941766454182" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.21596184924793768">1</text>
+        <text x="241.4941766454182" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.21596184924793768">1</text>
+        <text x="249.4941766454182" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.21596184924793768">0</text>
+      
+  
+        <text x="336.29958649237824" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.16022174422453458">1</text>
+        <text x="344.29958649237824" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.16022174422453458">1</text>
+        <text x="352.29958649237824" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.16022174422453458">1</text>
+      
+  
+        <text x="429.26319850217493" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.1625975842439384">1</text>
+        <text x="437.26319850217493" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.1625975842439384">1</text>
+        <text x="445.26319850217493" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.1625975842439384">0</text>
+      
+  
+        <text x="529.3881676379782" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.24475321142627035">1</text>
+        <text x="537.3881676379782" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.24475321142627035">1</text>
+        <text x="545.3881676379782" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.24475321142627035">0</text>
+      
+  
+        <text x="625.4441613472453" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.3388618257900591">1</text>
+        <text x="633.4441613472453" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.3388618257900591">1</text>
+        <text x="641.4441613472453" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.3388618257900591">1</text>
+      
+  
+        <text x="738.9565190187959" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.3189058973499783">0</text>
+        <text x="746.9565190187959" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.3189058973499783">0</text>
+        <text x="754.9565190187959" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.3189058973499783">1</text>
+      
+  
+        <text x="846.6979853526509" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.3372795701793082">0</text>
+        <text x="854.6979853526509" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.3372795701793082">0</text>
+        <text x="862.6979853526509" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.3372795701793082">0</text>
+      
+  
+        <text x="951.9377880834082" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.3492993850388116">1</text>
+        <text x="959.9377880834082" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.3492993850388116">1</text>
+        <text x="967.9377880834082" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.3492993850388116">1</text>
+      
+  
+        <text x="1050.0590663572195" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.22818282257504366">0</text>
+        <text x="1058.0590663572195" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.22818282257504366">0</text>
+        <text x="1066.0590663572195" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.22818282257504366">0</text>
+      
+  
+        <text x="1152.6120890822717" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.32086996153661373">0</text>
+        <text x="1160.6120890822717" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.32086996153661373">0</text>
+        <text x="1168.6120890822717" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.32086996153661373">0</text>
+      
+  
+        <text x="1282.253262483933" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.3190611173621742">0</text>
+        <text x="1290.253262483933" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.3190611173621742">0</text>
+        <text x="1298.253262483933" y="277" fill="#0ff" font-family="monospace" font-size="9" opacity="0.3190611173621742">0</text>
+      
+  
+        <text x="114.9757673873147" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.28297210952308605">0</text>
+        <text x="122.9757673873147" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.28297210952308605">0</text>
+        <text x="130.9757673873147" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.28297210952308605">1</text>
+      
+  
+        <text x="227.93385437223085" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.24389740725162481">0</text>
+        <text x="235.93385437223085" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.24389740725162481">1</text>
+        <text x="243.93385437223085" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.24389740725162481">0</text>
+      
+  
+        <text x="315.4177358824061" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.22069198800784323">1</text>
+        <text x="323.4177358824061" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.22069198800784323">0</text>
+        <text x="331.4177358824061" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.22069198800784323">0</text>
+      
+  
+        <text x="441.96782611589896" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.30528051329953154">1</text>
+        <text x="449.96782611589896" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.30528051329953154">0</text>
+        <text x="457.96782611589896" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.30528051329953154">0</text>
+      
+  
+        <text x="528.1456191881138" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.3220370562682624">1</text>
+        <text x="536.1456191881138" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.3220370562682624">1</text>
+        <text x="544.1456191881138" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.3220370562682624">0</text>
+      
+  
+        <text x="633.8539713887028" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.23195765443046779">0</text>
+        <text x="641.8539713887028" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.23195765443046779">1</text>
+        <text x="649.8539713887028" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.23195765443046779">1</text>
+      
+  
+        <text x="750.0512679137262" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.30892127274006254">0</text>
+        <text x="758.0512679137262" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.30892127274006254">0</text>
+        <text x="766.0512679137262" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.30892127274006254">0</text>
+      
+  
+        <text x="846.3613849299675" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.2810263400417463">1</text>
+        <text x="854.3613849299675" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.2810263400417463">1</text>
+        <text x="862.3613849299675" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.2810263400417463">0</text>
+      
+  
+        <text x="958.2512712673272" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.20948047691380556">1</text>
+        <text x="966.2512712673272" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.20948047691380556">1</text>
+        <text x="974.2512712673272" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.20948047691380556">0</text>
+      
+  
+        <text x="1057.2744519664961" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.18692221904885353">0</text>
+        <text x="1065.2744519664961" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.18692221904885353">1</text>
+        <text x="1073.2744519664961" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.18692221904885353">1</text>
+      
+  
+        <text x="1151.0085177996466" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.23002801331332484">0</text>
+        <text x="1159.0085177996466" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.23002801331332484">1</text>
+        <text x="1167.0085177996466" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.23002801331332484">0</text>
+      
+  
+        <text x="1279.907405175745" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.2927614896566087">0</text>
+        <text x="1287.907405175745" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.2927614896566087">0</text>
+        <text x="1295.907405175745" y="317" fill="#0ff" font-family="monospace" font-size="9" opacity="0.2927614896566087">0</text>
+      
+  
+        <text x="112.62958683254433" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.2196661540446072">0</text>
+        <text x="120.62958683254433" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.2196661540446072">0</text>
+        <text x="128.62958683254433" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.2196661540446072">0</text>
+      
+  
+        <text x="228.00947276980375" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.3147180151248189">0</text>
+        <text x="236.00947276980375" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.3147180151248189">0</text>
+        <text x="244.00947276980375" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.3147180151248189">0</text>
+      
+  
+        <text x="319.13813635284265" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.3065962158528708">1</text>
+        <text x="327.13813635284265" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.3065962158528708">0</text>
+        <text x="335.13813635284265" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.3065962158528708">1</text>
+      
+  
+        <text x="430.98161379616346" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.22891104150075622">0</text>
+        <text x="438.98161379616346" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.22891104150075622">1</text>
+        <text x="446.98161379616346" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.22891104150075622">1</text>
+      
+  
+        <text x="547.092094016803" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.26611992579177723">1</text>
+        <text x="555.092094016803" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.26611992579177723">1</text>
+        <text x="563.092094016803" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.26611992579177723">0</text>
+      
+  
+        <text x="634.3290860152429" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.2946820933979865">0</text>
+        <text x="642.3290860152429" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.2946820933979865">0</text>
+        <text x="650.3290860152429" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.2946820933979865">1</text>
+      
+  
+        <text x="751.5243307988443" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.21188003991366974">0</text>
+        <text x="759.5243307988443" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.21188003991366974">0</text>
+        <text x="767.5243307988443" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.21188003991366974">0</text>
+      
+  
+        <text x="849.9628083031308" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.2357455044749539">0</text>
+        <text x="857.9628083031308" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.2357455044749539">0</text>
+        <text x="865.9628083031308" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.2357455044749539">1</text>
+      
+  
+        <text x="956.5644045195528" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.24989030287612235">0</text>
+        <text x="964.5644045195528" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.24989030287612235">1</text>
+        <text x="972.5644045195528" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.24989030287612235">0</text>
+      
+  
+        <text x="1045.1498167975456" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.17540742292711411">1</text>
+        <text x="1053.1498167975456" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.17540742292711411">0</text>
+        <text x="1061.1498167975456" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.17540742292711411">0</text>
+      
+  
+        <text x="1165.3401712248653" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.2959353621097432">1</text>
+        <text x="1173.3401712248653" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.2959353621097432">1</text>
+        <text x="1181.3401712248653" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.2959353621097432">0</text>
+      
+  
+        <text x="1278.610016647108" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.21874237357430193">1</text>
+        <text x="1286.610016647108" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.21874237357430193">1</text>
+        <text x="1294.610016647108" y="357" fill="#0ff" font-family="monospace" font-size="9" opacity="0.21874237357430193">1</text>
+      
+  
+        <text x="118.77455242519471" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.30011787070925955">1</text>
+        <text x="126.77455242519471" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.30011787070925955">1</text>
+        <text x="134.7745524251947" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.30011787070925955">0</text>
+      
+  
+        <text x="216.62373734874362" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.19151928219113637">1</text>
+        <text x="224.62373734874362" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.19151928219113637">1</text>
+        <text x="232.62373734874362" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.19151928219113637">1</text>
+      
+  
+        <text x="322.89793251879" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.31350720574568647">1</text>
+        <text x="330.89793251879" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.31350720574568647">0</text>
+        <text x="338.89793251879" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.31350720574568647">1</text>
+      
+  
+        <text x="415.4997765671663" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.18070468670994497">1</text>
+        <text x="423.4997765671663" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.18070468670994497">0</text>
+        <text x="431.4997765671663" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.18070468670994497">1</text>
+      
+  
+        <text x="530.2404578210659" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.2436068109416375">0</text>
+        <text x="538.2404578210659" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.2436068109416375">1</text>
+        <text x="546.2404578210659" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.2436068109416375">1</text>
+      
+  
+        <text x="642.0872408671665" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.322659790121796">0</text>
+        <text x="650.0872408671665" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.322659790121796">0</text>
+        <text x="658.0872408671665" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.322659790121796">1</text>
+      
+  
+        <text x="751.5353111134933" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.1529523834143125">0</text>
+        <text x="759.5353111134933" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.1529523834143125">1</text>
+        <text x="767.5353111134933" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.1529523834143125">1</text>
+      
+  
+        <text x="847.9216468163759" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.2570767118427275">0</text>
+        <text x="855.9216468163759" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.2570767118427275">0</text>
+        <text x="863.9216468163759" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.2570767118427275">1</text>
+      
+  
+        <text x="949.1530770400111" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.19861067871781166">1</text>
+        <text x="957.1530770400111" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.19861067871781166">0</text>
+        <text x="965.1530770400111" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.19861067871781166">1</text>
+      
+  
+        <text x="1053.456231997657" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.3221526294836948">0</text>
+        <text x="1061.456231997657" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.3221526294836948">0</text>
+        <text x="1069.456231997657" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.3221526294836948">0</text>
+      
+  
+        <text x="1168.2184468300252" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.15317011613846723">1</text>
+        <text x="1176.2184468300252" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.15317011613846723">0</text>
+        <text x="1184.2184468300252" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.15317011613846723">0</text>
+      
+  
+        <text x="1279.843106114635" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.26349251254755424">1</text>
+        <text x="1287.843106114635" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.26349251254755424">1</text>
+        <text x="1295.843106114635" y="397" fill="#0ff" font-family="monospace" font-size="9" opacity="0.26349251254755424">0</text>
+      
+  
+        <text x="126.54665379840075" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.18741425822557922">0</text>
+        <text x="134.54665379840077" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.18741425822557922">0</text>
+        <text x="142.54665379840077" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.18741425822557922">0</text>
+      
+  
+        <text x="208.78743205273437" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.17672678918613421">1</text>
+        <text x="216.78743205273437" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.17672678918613421">1</text>
+        <text x="224.78743205273437" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.17672678918613421">0</text>
+      
+  
+        <text x="322.6925417814179" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.22644963615112745">0</text>
+        <text x="330.6925417814179" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.22644963615112745">0</text>
+        <text x="338.6925417814179" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.22644963615112745">0</text>
+      
+  
+        <text x="419.4091737243767" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.21886578274547475">0</text>
+        <text x="427.4091737243767" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.21886578274547475">0</text>
+        <text x="435.4091737243767" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.21886578274547475">1</text>
+      
+  
+        <text x="545.7651608789322" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.24414272467464507">1</text>
+        <text x="553.7651608789322" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.24414272467464507">1</text>
+        <text x="561.7651608789322" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.24414272467464507">1</text>
+      
+  
+        <text x="632.9699387646914" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.29733078604697066">1</text>
+        <text x="640.9699387646914" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.29733078604697066">1</text>
+        <text x="648.9699387646914" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.29733078604697066">0</text>
+      
+  
+        <text x="744.5347934934083" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.22864189439483215">0</text>
+        <text x="752.5347934934083" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.22864189439483215">1</text>
+        <text x="760.5347934934083" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.22864189439483215">1</text>
+      
+  
+        <text x="840.5423283020916" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.3298135717588845">0</text>
+        <text x="848.5423283020916" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.3298135717588845">0</text>
+        <text x="856.5423283020916" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.3298135717588845">0</text>
+      
+  
+        <text x="969.7678766017355" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.21573686241314805">0</text>
+        <text x="977.7678766017355" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.21573686241314805">1</text>
+        <text x="985.7678766017355" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.21573686241314805">1</text>
+      
+  
+        <text x="1059.7183802481002" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.349074328904004">0</text>
+        <text x="1067.7183802481002" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.349074328904004">0</text>
+        <text x="1075.7183802481002" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.349074328904004">1</text>
+      
+  
+        <text x="1174.5370420987786" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.17758093967859573">1</text>
+        <text x="1182.5370420987786" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.17758093967859573">0</text>
+        <text x="1190.5370420987786" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.17758093967859573">1</text>
+      
+  
+        <text x="1265.5599914074326" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.34970948568356364">0</text>
+        <text x="1273.5599914074326" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.34970948568356364">0</text>
+        <text x="1281.5599914074326" y="437" fill="#0ff" font-family="monospace" font-size="9" opacity="0.34970948568356364">0</text>
+      
+  
+        <text x="125.97098072753813" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.21073536784360272">0</text>
+        <text x="133.97098072753812" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.21073536784360272">0</text>
+        <text x="141.97098072753812" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.21073536784360272">0</text>
+      
+  
+        <text x="221.71252248239733" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.32734571598895057">0</text>
+        <text x="229.71252248239733" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.32734571598895057">1</text>
+        <text x="237.71252248239733" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.32734571598895057">0</text>
+      
+  
+        <text x="327.7798632611109" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.26567374473467525">1</text>
+        <text x="335.7798632611109" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.26567374473467525">0</text>
+        <text x="343.7798632611109" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.26567374473467525">0</text>
+      
+  
+        <text x="433.6992374681328" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.3036066337762341">0</text>
+        <text x="441.6992374681328" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.3036066337762341">0</text>
+        <text x="449.6992374681328" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.3036066337762341">0</text>
+      
+  
+        <text x="524.7066020960029" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.1634737319151063">0</text>
+        <text x="532.7066020960029" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.1634737319151063">1</text>
+        <text x="540.7066020960029" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.1634737319151063">0</text>
+      
+  
+        <text x="641.9550704371325" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.27319784360442334">0</text>
+        <text x="649.9550704371325" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.27319784360442334">1</text>
+        <text x="657.9550704371325" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.27319784360442334">0</text>
+      
+  
+        <text x="759.3682587268981" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.16077822322515548">1</text>
+        <text x="767.3682587268981" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.16077822322515548">1</text>
+        <text x="775.3682587268981" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.16077822322515548">0</text>
+      
+  
+        <text x="855.6792605920604" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.1853080123912557">1</text>
+        <text x="863.6792605920604" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.1853080123912557">1</text>
+        <text x="871.6792605920604" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.1853080123912557">0</text>
+      
+  
+        <text x="954.2364916205175" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.2834094496604084">0</text>
+        <text x="962.2364916205175" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.2834094496604084">1</text>
+        <text x="970.2364916205175" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.2834094496604084">1</text>
+      
+  
+        <text x="1057.7535548430922" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.27002017537335077">1</text>
+        <text x="1065.7535548430922" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.27002017537335077">1</text>
+        <text x="1073.7535548430922" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.27002017537335077">1</text>
+      
+  
+        <text x="1175.9622517087917" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.1808363644959408">0</text>
+        <text x="1183.9622517087917" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.1808363644959408">1</text>
+        <text x="1191.9622517087917" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.1808363644959408">0</text>
+      
+  
+        <text x="1260.6461995391735" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.16170429660304123">1</text>
+        <text x="1268.6461995391735" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.16170429660304123">0</text>
+        <text x="1276.6461995391735" y="477" fill="#0ff" font-family="monospace" font-size="9" opacity="0.16170429660304123">0</text>
+      
+  
+    <!-- Left side nodes -->
+    <g filter="url(#nodeGlow)">
+      <circle cx="120" cy="350" r="6" fill="#0ff" opacity="0.7" />
+      <circle cx="180" cy="310" r="5" fill="#00ffa3" opacity="0.5" />
+      <circle cx="200" cy="420" r="7" fill="#0ff" opacity="0.6" />
+      <circle cx="150" cy="480" r="4" fill="#00ffa3" opacity="0.4" />
+      <circle cx="250" cy="380" r="5" fill="#0ff" opacity="0.5" />
+    </g>
+    <!-- Left side chain links -->
+    <line x1="120" y1="350" x2="180" y2="310" stroke="#0ff" stroke-width="1.5" opacity="0.3" />
+    <line x1="180" y1="310" x2="250" y2="380" stroke="#0ff" stroke-width="1.5" opacity="0.25" />
+    <line x1="120" y1="350" x2="200" y2="420" stroke="#0ff" stroke-width="1.5" opacity="0.25" />
+    <line x1="200" y1="420" x2="150" y2="480" stroke="#0ff" stroke-width="1.5" opacity="0.2" />
+    <line x1="200" y1="420" x2="250" y2="380" stroke="#0ff" stroke-width="1.5" opacity="0.2" />
+    
+    <!-- Right side nodes -->
+    <g filter="url(#nodeGlow)">
+      <circle cx="1280" cy="340" r="6" fill="#0ff" opacity="0.7" />
+      <circle cx="1220" cy="300" r="5" fill="#00ffa3" opacity="0.5" />
+      <circle cx="1250" cy="430" r="7" fill="#0ff" opacity="0.6" />
+      <circle cx="1300" cy="480" r="4" fill="#00ffa3" opacity="0.4" />
+      <circle cx="1180" cy="390" r="5" fill="#0ff" opacity="0.5" />
+    </g>
+    <!-- Right side chain links -->
+    <line x1="1280" y1="340" x2="1220" y2="300" stroke="#0ff" stroke-width="1.5" opacity="0.3" />
+    <line x1="1220" y1="300" x2="1180" y2="390" stroke="#0ff" stroke-width="1.5" opacity="0.25" />
+    <line x1="1280" y1="340" x2="1250" y2="430" stroke="#0ff" stroke-width="1.5" opacity="0.25" />
+    <line x1="1250" y1="430" x2="1300" y2="480" stroke="#0ff" stroke-width="1.5" opacity="0.2" />
+    <line x1="1250" y1="430" x2="1180" y2="390" stroke="#0ff" stroke-width="1.5" opacity="0.2" />
+  
+  
+    <ellipse cx="720" cy="380" rx="160" ry="160" fill="url(#glowEmerald)" opacity="0.6" />
+  
+  
+    <polygon points="720,250 832.5833024919771,315 832.5833024919771,445 720,510 607.4166975080229,445.00000000000006 607.4166975080229,315.0000000000001" fill="url(#shieldGrad)" stroke="url(#shieldBorder)" stroke-width="3" opacity="0.9" />
+  
+  
+    <polygon points="720,282.5 804.4374768689828,331.25 804.4374768689828,428.75 720,477.5 635.5625231310172,428.75000000000006 635.5625231310172,331.25000000000006" fill="none" stroke="#0ff" stroke-width="0.5" opacity="0.25" />
+  
+  
+    <line x1="640" y1="350" x2="700" y2="350" stroke="#0ff" stroke-width="0.5" opacity="0.2" />
+    <line x1="700" y1="350" x2="700" y2="320" stroke="#0ff" stroke-width="0.5" opacity="0.2" />
+    <line x1="740" y1="410" x2="800" y2="410" stroke="#0ff" stroke-width="0.5" opacity="0.2" />
+    <line x1="740" y1="410" x2="740" y2="440" stroke="#0ff" stroke-width="0.5" opacity="0.2" />
+    <line x1="660" y1="390" x2="690" y2="390" stroke="#0ff" stroke-width="0.5" opacity="0.15" />
+    <line x1="750" y1="370" x2="780" y2="370" stroke="#0ff" stroke-width="0.5" opacity="0.15" />
+    <circle cx="700" cy="320" r="3" fill="#0ff" opacity="0.2" />
+    <circle cx="740" cy="440" r="3" fill="#0ff" opacity="0.2" />
+  
+  
+    <g filter="url(#softGlow)">
+      <!-- Lock shackle (U-shape) -->
+      <path d="M 698 375 
+               L 698 355 
+               A 22 22 0 0 1 742 355 
+               L 742 375" 
+            fill="none" stroke="#00ffa3" stroke-width="5" stroke-linecap="round" opacity="0.9" />
+      <!-- Lock body -->
+      <rect x="690" y="375" width="60" height="45" rx="5" fill="url(#lockGrad)" opacity="0.9" />
+      <!-- Keyhole -->
+      <circle cx="720" cy="392" r="7" fill="#0a0e27" opacity="0.8" />
+      <rect x="717" y="394" width="6" height="14" rx="2" fill="#0a0e27" opacity="0.8" />
+      <!-- Keyhole inner dot -->
+      <circle cx="720" cy="392" r="3" fill="#0ff" opacity="0.5" />
+    </g>
+  
+  
+    <g transform="translate(160, 180)" filter="url(#nodeGlow)">
+      <!-- Brain outer shape using overlapping circles/paths -->
+      <ellipse cx="0" cy="0" rx="40" ry="30" fill="none" stroke="#0ff" stroke-width="1.5" opacity="0.4" />
+      <ellipse cx="-5" cy="-2" rx="22" ry="18" fill="none" stroke="#0ff" stroke-width="1" opacity="0.3" />
+      <!-- Neural network nodes -->
+      <circle cx="-15" cy="-12" r="4" fill="#0ff" opacity="0.8" />
+      <circle cx="0" cy="-18" r="3.5" fill="#00ffa3" opacity="0.7" />
+      <circle cx="15" cy="-12" r="4" fill="#0ff" opacity="0.8" />
+      <circle cx="-20" cy="5" r="3.5" fill="#00ffa3" opacity="0.7" />
+      <circle cx="0" cy="0" r="5" fill="#0ff" opacity="0.9" />
+      <circle cx="20" cy="5" r="3.5" fill="#00ffa3" opacity="0.7" />
+      <circle cx="-10" cy="18" r="3" fill="#0ff" opacity="0.6" />
+      <circle cx="10" cy="18" r="3" fill="#00ffa3" opacity="0.6" />
+      <!-- Connections -->
+      <line x1="-15" y1="-12" x2="0" y2="0" stroke="#0ff" stroke-width="1" opacity="0.3" />
+      <line x1="0" y1="-18" x2="0" y2="0" stroke="#0ff" stroke-width="1" opacity="0.3" />
+      <line x1="15" y1="-12" x2="0" y2="0" stroke="#0ff" stroke-width="1" opacity="0.3" />
+      <line x1="-20" y1="5" x2="0" y2="0" stroke="#0ff" stroke-width="1" opacity="0.3" />
+      <line x1="20" y1="5" x2="0" y2="0" stroke="#0ff" stroke-width="1" opacity="0.3" />
+      <line x1="-10" y1="18" x2="0" y2="0" stroke="#0ff" stroke-width="1" opacity="0.3" />
+      <line x1="10" y1="18" x2="0" y2="0" stroke="#0ff" stroke-width="1" opacity="0.3" />
+      <line x1="-15" y1="-12" x2="0" y2="-18" stroke="#0ff" stroke-width="0.8" opacity="0.2" />
+      <line x1="0" y1="-18" x2="15" y2="-12" stroke="#0ff" stroke-width="0.8" opacity="0.2" />
+      <line x1="-15" y1="-12" x2="-20" y2="5" stroke="#0ff" stroke-width="0.8" opacity="0.2" />
+      <line x1="15" y1="-12" x2="20" y2="5" stroke="#0ff" stroke-width="0.8" opacity="0.2" />
+      <line x1="-20" y1="5" x2="-10" y2="18" stroke="#0ff" stroke-width="0.8" opacity="0.2" />
+      <line x1="20" y1="5" x2="10" y2="18" stroke="#0ff" stroke-width="0.8" opacity="0.2" />
+      <!-- Label -->
+      <text x="55" y="5" fill="#0ff" font-family="Arial, sans-serif" font-size="11" font-weight="bold" opacity="0.5">AI</text>
+    </g>
+  
+  <circle cx="345.31029455174973" cy="321.29964559759355" r="1.0630391308207243" fill="#0ff" opacity="0.12508435611993565" />
+  <circle cx="526.2941673619305" cy="690.0602270422569" r="1.955801683118043" fill="#00ffa3" opacity="0.24321497528194574" />
+  <circle cx="203.84501413079087" cy="602.9862425937217" r="2.4934117643679943" fill="#00ffa3" opacity="0.364454020400402" />
+  <circle cx="869.7158533799503" cy="321.0524893441429" r="1.206632363412787" fill="#0ff" opacity="0.2675444686795797" />
+  <circle cx="531.6308526735605" cy="589.9804496993102" r="2.826369142627213" fill="#00ffa3" opacity="0.17277884568573135" />
+  <circle cx="34.28766096575133" cy="679.5671225582871" r="1.7206641842824297" fill="#00ffa3" opacity="0.3926464675129464" />
+  <circle cx="397.0451379462096" cy="340.05166608817365" r="2.5497188494792598" fill="#00ffa3" opacity="0.29289675124733183" />
+  <circle cx="194.60080260939563" cy="330.66667758136083" r="2.6539889618278663" fill="#0ff" opacity="0.38793171619696487" />
+  <circle cx="423.0866311053865" cy="374.1171915667531" r="1.8535329433622196" fill="#0ff" opacity="0.15109464282167964" />
+  <circle cx="727.4482848693369" cy="548.4189223897893" r="2.700721884254861" fill="#0ff" opacity="0.14163858491615525" />
+  <circle cx="6.410315293553932" cy="639.4136563967817" r="1.2031996180063438" fill="#00ffa3" opacity="0.28325429184751594" />
+  <circle cx="1238.3976369783168" cy="358.14725825379315" r="1.9737581907385766" fill="#0ff" opacity="0.20292803032628737" />
+  <circle cx="496.51608627896894" cy="322.0200015084719" r="1.2138853532762135" fill="#0ff" opacity="0.35084529208160786" />
+  <circle cx="182.40214189559103" cy="81.21082734314365" r="2.905465080711882" fill="#00ffa3" opacity="0.24661664620206902" />
+  <circle cx="127.47356129298522" cy="341.2570095127128" r="1.359079899306116" fill="#00ffa3" opacity="0.2904054748148346" />
+  <circle cx="1369.8966404137507" cy="548.8780732926259" r="2.0309906897880943" fill="#0ff" opacity="0.23933840555471275" />
+  <circle cx="1072.839894191522" cy="36.66027444496176" r="2.939520906601128" fill="#0ff" opacity="0.20738326370371662" />
+  <circle cx="1103.4467687901938" cy="5.674098614691774" r="1.717358497893352" fill="#00ffa3" opacity="0.3645333190096308" />
+  <circle cx="91.28617907824194" cy="559.318057267812" r="1.9606091194491502" fill="#0ff" opacity="0.23695970004725156" />
+  <circle cx="443.17162217175485" cy="263.77933300991464" r="2.0785421366358454" fill="#0ff" opacity="0.2440370086362343" />
+  <circle cx="236.44942112016045" cy="638.0967677124429" r="2.220505078148702" fill="#00ffa3" opacity="0.12232282503969016" />
+  <circle cx="1414.7931837019457" cy="378.4688072905838" r="2.9729758516172424" fill="#00ffa3" opacity="0.20430903925116167" />
+  <circle cx="1385.799624451214" cy="315.1768771302448" r="2.19993999586858" fill="#0ff" opacity="0.20557524090138812" />
+  <circle cx="50.34666956239322" cy="517.3846832689318" r="1.500840901502777" fill="#00ffa3" opacity="0.3024674542952786" />
+  <circle cx="405.2064966457045" cy="641.9476877910047" r="1.6543557643576505" fill="#00ffa3" opacity="0.1872805472721068" />
+  <circle cx="1277.7262307681126" cy="149.6171996376146" r="2.6245968583039283" fill="#00ffa3" opacity="0.36985676687172775" />
+  <circle cx="256.20350196014243" cy="251.47655120079924" r="1.3490410673283244" fill="#0ff" opacity="0.10828121120591921" />
+  <circle cx="603.2374027187567" cy="222.9833095399722" r="1.4462366378000482" fill="#00ffa3" opacity="0.1945293838604106" />
+  <circle cx="1271.0958334050488" cy="433.4461514424882" r="2.9787534537107137" fill="#0ff" opacity="0.3307396640646968" />
+  <circle cx="34.35477384668541" cy="450.3962336441392" r="2.8186741610610024" fill="#0ff" opacity="0.2399462669421345" />
+  
+    <g filter="url(#textGlow)">
+      <text x="720" y="100" 
+            text-anchor="middle" 
+            fill="#ffffff" 
+            font-family="Arial, Helvetica, sans-serif" 
+            font-size="64" 
+            font-weight="900"
+            letter-spacing="8">
+        CONFIDEX AI
+      </text>
+    </g>
+    <!-- Subtle underline accent -->
+    <line x1="500" y1="115" x2="940" y2="115" 
+          stroke="url(#shieldBorder)" stroke-width="2" opacity="0.4" />
+  
+  
+    <text x="720" y="620" 
+          text-anchor="middle" 
+          fill="#0ff" 
+          font-family="Arial, Helvetica, sans-serif" 
+          font-size="22" 
+          font-weight="400"
+          letter-spacing="3"
+          opacity="0.85">
+      Privacy-Preserving AI Deal Room on SKALE
+    </text>
+  
+  
+    <g transform="translate(1240, 650)">
+      <rect x="0" y="0" width="180" height="44" rx="22" 
+            fill="#0a0e27" stroke="#0ff" stroke-width="1.5" opacity="0.9" />
+      <text x="90" y="28" 
+            text-anchor="middle" 
+            fill="#0ff" 
+            font-family="Arial, Helvetica, sans-serif" 
+            font-size="13" 
+            font-weight="700"
+            letter-spacing="1">
+        SKALE Hackathon 2026
+      </text>
+    </g>
+  
+</svg>
