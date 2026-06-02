@@ -2,409 +2,192 @@ import sharp from 'sharp';
 import fs from 'fs';
 import path from 'path';
 
-const WIDTH = 1440;
-const HEIGHT = 720;
-const outputPath = '/home/z/my-project/confidex-ai/docs/demo/thumbnail.png';
+const W = 1280, H = 720;
 
-// Color palette
-const NAVY_DARK = '#0a0e27';
-const NAVY_MID = '#111638';
-const SLATE = '#1a1f3a';
-const EMERALD = '#00ffa3';
-const TEAL = '#0ff';
-const TEAL_DARK = '#10b981';
-const WHITE = '#ffffff';
-const TEAL_GLOW = '#00ffa3';
-
-function buildSVG() {
-  // Gradient defs
-  const defs = `
-    <defs>
-      <!-- Background gradient -->
-      <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="${NAVY_DARK}" />
-        <stop offset="50%" stop-color="${NAVY_MID}" />
-        <stop offset="100%" stop-color="${SLATE}" />
-      </linearGradient>
-      <!-- Shield gradient -->
-      <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#0d2b3e" />
-        <stop offset="100%" stop-color="#0a1628" />
-      </linearGradient>
-      <!-- Emerald glow gradient -->
-      <radialGradient id="glowEmerald" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stop-color="${EMERALD}" stop-opacity="0.4" />
-        <stop offset="100%" stop-color="${EMERALD}" stop-opacity="0" />
-      </radialGradient>
-      <!-- Teal glow -->
-      <radialGradient id="glowTeal" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stop-color="${TEAL}" stop-opacity="0.3" />
-        <stop offset="100%" stop-color="${TEAL}" stop-opacity="0" />
-      </radialGradient>
-      <!-- Large center glow -->
-      <radialGradient id="centerGlow" cx="50%" cy="50%" r="35%">
-        <stop offset="0%" stop-color="${EMERALD}" stop-opacity="0.15" />
-        <stop offset="60%" stop-color="#006644" stop-opacity="0.05" />
-        <stop offset="100%" stop-color="transparent" stop-opacity="0" />
-      </radialGradient>
-      <!-- Shield border gradient -->
-      <linearGradient id="shieldBorder" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="${EMERALD}" />
-        <stop offset="50%" stop-color="${TEAL}" />
-        <stop offset="100%" stop-color="${EMERALD}" />
-      </linearGradient>
-      <!-- Lock body gradient -->
-      <linearGradient id="lockGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stop-color="${EMERALD}" />
-        <stop offset="100%" stop-color="${TEAL_DARK}" />
-      </linearGradient>
-      <!-- Data stream gradient -->
-      <linearGradient id="streamGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" stop-color="${TEAL}" stop-opacity="0" />
-        <stop offset="30%" stop-color="${TEAL}" stop-opacity="0.6" />
-        <stop offset="70%" stop-color="${EMERALD}" stop-opacity="0.6" />
-        <stop offset="100%" stop-color="${EMERALD}" stop-opacity="0" />
-      </linearGradient>
-      <!-- Text glow filter -->
-      <filter id="textGlow" x="-20%" y="-20%" width="140%" height="140%">
-        <feGaussianBlur stdDeviation="4" result="blur" />
-        <feMerge>
-          <feMergeNode in="blur" />
-          <feMergeNode in="SourceGraphic" />
-        </feMerge>
-      </filter>
-      <!-- Soft glow filter -->
-      <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
-        <feGaussianBlur stdDeviation="8" result="blur" />
-        <feMerge>
-          <feMergeNode in="blur" />
-          <feMergeNode in="SourceGraphic" />
-        </feMerge>
-      </filter>
-      <!-- Node glow -->
-      <filter id="nodeGlow" x="-100%" y="-100%" width="300%" height="300%">
-        <feGaussianBlur stdDeviation="3" result="blur" />
-        <feMerge>
-          <feMergeNode in="blur" />
-          <feMergeNode in="SourceGraphic" />
-        </feMerge>
-      </filter>
-      <!-- Grid pattern -->
-      <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
-        <path d="M 60 0 L 0 0 0 60" fill="none" stroke="${EMERALD}" stroke-width="0.3" stroke-opacity="0.08" />
-      </pattern>
-    </defs>
-  `;
-
-  // Background
-  const background = `
-    <rect width="${WIDTH}" height="${HEIGHT}" fill="url(#bgGrad)" />
-    <rect width="${WIDTH}" height="${HEIGHT}" fill="url(#grid)" />
-    <rect width="${WIDTH}" height="${HEIGHT}" fill="url(#centerGlow)" />
-  `;
-
-  // Bokeh circles
-  const bokeh = `
-    <circle cx="200" cy="150" r="80" fill="${TEAL}" opacity="0.03" />
-    <circle cx="1200" cy="550" r="100" fill="${EMERALD}" opacity="0.04" />
-    <circle cx="700" cy="100" r="60" fill="${TEAL}" opacity="0.03" />
-    <circle cx="350" cy="600" r="70" fill="${EMERALD}" opacity="0.03" />
-    <circle cx="1100" cy="200" r="50" fill="${TEAL}" opacity="0.02" />
-    <circle cx="100" cy="400" r="40" fill="${EMERALD}" opacity="0.03" />
-    <circle cx="1300" cy="400" r="55" fill="${TEAL}" opacity="0.03" />
-  `;
-
-  // Data streams (encrypted binary flowing left to right)
-  const dataStreams = [];
-  const streamYs = [280, 320, 360, 400, 440, 480];
-  for (const y of streamYs) {
-    const x1 = 80 + Math.random() * 100;
-    const x2 = WIDTH - 80 - Math.random() * 100;
-    dataStreams.push(`
-      <line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}" stroke="url(#streamGrad)" stroke-width="1" opacity="0.25" />
-    `);
-  }
-  
-  // Binary text particles along streams
-  const binaryParticles = [];
-  for (const y of streamYs) {
-    for (let i = 0; i < 12; i++) {
-      const x = 100 + i * 105 + Math.random() * 30;
-      const text = Math.random() > 0.5 ? '1' : '0';
-      const opacity = 0.15 + Math.random() * 0.2;
-      binaryParticles.push(`
-        <text x="${x}" y="${y - 3}" fill="${TEAL}" font-family="monospace" font-size="9" opacity="${opacity}">${text}</text>
-        <text x="${x + 8}" y="${y - 3}" fill="${TEAL}" font-family="monospace" font-size="9" opacity="${opacity}">${Math.random() > 0.5 ? '1' : '0'}</text>
-        <text x="${x + 16}" y="${y - 3}" fill="${TEAL}" font-family="monospace" font-size="9" opacity="${opacity}">${Math.random() > 0.5 ? '1' : '0'}</text>
-      `);
-    }
-  }
-
-  // Blockchain nodes and chain links
-  const blockchain = `
-    <!-- Left side nodes -->
-    <g filter="url(#nodeGlow)">
-      <circle cx="120" cy="350" r="6" fill="${TEAL}" opacity="0.7" />
-      <circle cx="180" cy="310" r="5" fill="${EMERALD}" opacity="0.5" />
-      <circle cx="200" cy="420" r="7" fill="${TEAL}" opacity="0.6" />
-      <circle cx="150" cy="480" r="4" fill="${EMERALD}" opacity="0.4" />
-      <circle cx="250" cy="380" r="5" fill="${TEAL}" opacity="0.5" />
-    </g>
-    <!-- Left side chain links -->
-    <line x1="120" y1="350" x2="180" y2="310" stroke="${TEAL}" stroke-width="1.5" opacity="0.3" />
-    <line x1="180" y1="310" x2="250" y2="380" stroke="${TEAL}" stroke-width="1.5" opacity="0.25" />
-    <line x1="120" y1="350" x2="200" y2="420" stroke="${TEAL}" stroke-width="1.5" opacity="0.25" />
-    <line x1="200" y1="420" x2="150" y2="480" stroke="${TEAL}" stroke-width="1.5" opacity="0.2" />
-    <line x1="200" y1="420" x2="250" y2="380" stroke="${TEAL}" stroke-width="1.5" opacity="0.2" />
-    
-    <!-- Right side nodes -->
-    <g filter="url(#nodeGlow)">
-      <circle cx="1280" cy="340" r="6" fill="${TEAL}" opacity="0.7" />
-      <circle cx="1220" cy="300" r="5" fill="${EMERALD}" opacity="0.5" />
-      <circle cx="1250" cy="430" r="7" fill="${TEAL}" opacity="0.6" />
-      <circle cx="1300" cy="480" r="4" fill="${EMERALD}" opacity="0.4" />
-      <circle cx="1180" cy="390" r="5" fill="${TEAL}" opacity="0.5" />
-    </g>
-    <!-- Right side chain links -->
-    <line x1="1280" y1="340" x2="1220" y2="300" stroke="${TEAL}" stroke-width="1.5" opacity="0.3" />
-    <line x1="1220" y1="300" x2="1180" y2="390" stroke="${TEAL}" stroke-width="1.5" opacity="0.25" />
-    <line x1="1280" y1="340" x2="1250" y2="430" stroke="${TEAL}" stroke-width="1.5" opacity="0.25" />
-    <line x1="1250" y1="430" x2="1300" y2="480" stroke="${TEAL}" stroke-width="1.5" opacity="0.2" />
-    <line x1="1250" y1="430" x2="1180" y2="390" stroke="${TEAL}" stroke-width="1.5" opacity="0.2" />
-  `;
-
-  // Hexagonal shield with lock
-  const cx = WIDTH / 2;
-  const cy = HEIGHT / 2 + 20;
-  const shieldSize = 130;
-  
-  // Hexagon points
-  const hexPoints = [];
-  for (let i = 0; i < 6; i++) {
-    const angle = (Math.PI / 3) * i - Math.PI / 2;
-    const px = cx + shieldSize * Math.cos(angle);
-    const py = cy + shieldSize * Math.sin(angle);
-    hexPoints.push(`${px},${py}`);
-  }
-  
-  // Outer glow for shield
-  const shieldGlow = `
-    <ellipse cx="${cx}" cy="${cy}" rx="160" ry="160" fill="url(#glowEmerald)" opacity="0.6" />
-  `;
-
-  // Shield body
-  const shield = `
-    <polygon points="${hexPoints.join(' ')}" fill="url(#shieldGrad)" stroke="url(#shieldBorder)" stroke-width="3" opacity="0.9" />
-  `;
-
-  // Shield inner hexagon (decorative)
-  const innerHexPoints = [];
-  const innerSize = shieldSize * 0.75;
-  for (let i = 0; i < 6; i++) {
-    const angle = (Math.PI / 3) * i - Math.PI / 2;
-    const px = cx + innerSize * Math.cos(angle);
-    const py = cy + innerSize * Math.sin(angle);
-    innerHexPoints.push(`${px},${py}`);
-  }
-  const innerShield = `
-    <polygon points="${innerHexPoints.join(' ')}" fill="none" stroke="${TEAL}" stroke-width="0.5" opacity="0.25" />
-  `;
-
-  // Circuitry lines on shield
-  const circuitry = `
-    <line x1="${cx - 80}" y1="${cy - 30}" x2="${cx - 20}" y2="${cy - 30}" stroke="${TEAL}" stroke-width="0.5" opacity="0.2" />
-    <line x1="${cx - 20}" y1="${cy - 30}" x2="${cx - 20}" y2="${cy - 60}" stroke="${TEAL}" stroke-width="0.5" opacity="0.2" />
-    <line x1="${cx + 20}" y1="${cy + 30}" x2="${cx + 80}" y2="${cy + 30}" stroke="${TEAL}" stroke-width="0.5" opacity="0.2" />
-    <line x1="${cx + 20}" y1="${cy + 30}" x2="${cx + 20}" y2="${cy + 60}" stroke="${TEAL}" stroke-width="0.5" opacity="0.2" />
-    <line x1="${cx - 60}" y1="${cy + 10}" x2="${cx - 30}" y2="${cy + 10}" stroke="${TEAL}" stroke-width="0.5" opacity="0.15" />
-    <line x1="${cx + 30}" y1="${cy - 10}" x2="${cx + 60}" y2="${cy - 10}" stroke="${TEAL}" stroke-width="0.5" opacity="0.15" />
-    <circle cx="${cx - 20}" cy="${cy - 60}" r="3" fill="${TEAL}" opacity="0.2" />
-    <circle cx="${cx + 20}" cy="${cy + 60}" r="3" fill="${TEAL}" opacity="0.2" />
-  `;
-
-  // Lock icon in center of shield
-  const lockX = cx;
-  const lockY = cy;
-  const lock = `
-    <g filter="url(#softGlow)">
-      <!-- Lock shackle (U-shape) -->
-      <path d="M ${lockX - 22} ${lockY - 5} 
-               L ${lockX - 22} ${lockY - 25} 
-               A 22 22 0 0 1 ${lockX + 22} ${lockY - 25} 
-               L ${lockX + 22} ${lockY - 5}" 
-            fill="none" stroke="${EMERALD}" stroke-width="5" stroke-linecap="round" opacity="0.9" />
-      <!-- Lock body -->
-      <rect x="${lockX - 30}" y="${lockY - 5}" width="60" height="45" rx="5" fill="url(#lockGrad)" opacity="0.9" />
-      <!-- Keyhole -->
-      <circle cx="${lockX}" cy="${lockY + 12}" r="7" fill="${NAVY_DARK}" opacity="0.8" />
-      <rect x="${lockX - 3}" y="${lockY + 14}" width="6" height="14" rx="2" fill="${NAVY_DARK}" opacity="0.8" />
-      <!-- Keyhole inner dot -->
-      <circle cx="${lockX}" cy="${lockY + 12}" r="3" fill="${TEAL}" opacity="0.5" />
-    </g>
-  `;
-
-  // AI Brain icon (upper left area)
-  const brainX = 160;
-  const brainY = 180;
-  const brain = `
-    <g transform="translate(${brainX}, ${brainY})" filter="url(#nodeGlow)">
-      <!-- Brain outer shape using overlapping circles/paths -->
-      <ellipse cx="0" cy="0" rx="40" ry="30" fill="none" stroke="${TEAL}" stroke-width="1.5" opacity="0.4" />
-      <ellipse cx="-5" cy="-2" rx="22" ry="18" fill="none" stroke="${TEAL}" stroke-width="1" opacity="0.3" />
-      <!-- Neural network nodes -->
-      <circle cx="-15" cy="-12" r="4" fill="${TEAL}" opacity="0.8" />
-      <circle cx="0" cy="-18" r="3.5" fill="${EMERALD}" opacity="0.7" />
-      <circle cx="15" cy="-12" r="4" fill="${TEAL}" opacity="0.8" />
-      <circle cx="-20" cy="5" r="3.5" fill="${EMERALD}" opacity="0.7" />
-      <circle cx="0" cy="0" r="5" fill="${TEAL}" opacity="0.9" />
-      <circle cx="20" cy="5" r="3.5" fill="${EMERALD}" opacity="0.7" />
-      <circle cx="-10" cy="18" r="3" fill="${TEAL}" opacity="0.6" />
-      <circle cx="10" cy="18" r="3" fill="${EMERALD}" opacity="0.6" />
-      <!-- Connections -->
-      <line x1="-15" y1="-12" x2="0" y2="0" stroke="${TEAL}" stroke-width="1" opacity="0.3" />
-      <line x1="0" y1="-18" x2="0" y2="0" stroke="${TEAL}" stroke-width="1" opacity="0.3" />
-      <line x1="15" y1="-12" x2="0" y2="0" stroke="${TEAL}" stroke-width="1" opacity="0.3" />
-      <line x1="-20" y1="5" x2="0" y2="0" stroke="${TEAL}" stroke-width="1" opacity="0.3" />
-      <line x1="20" y1="5" x2="0" y2="0" stroke="${TEAL}" stroke-width="1" opacity="0.3" />
-      <line x1="-10" y1="18" x2="0" y2="0" stroke="${TEAL}" stroke-width="1" opacity="0.3" />
-      <line x1="10" y1="18" x2="0" y2="0" stroke="${TEAL}" stroke-width="1" opacity="0.3" />
-      <line x1="-15" y1="-12" x2="0" y2="-18" stroke="${TEAL}" stroke-width="0.8" opacity="0.2" />
-      <line x1="0" y1="-18" x2="15" y2="-12" stroke="${TEAL}" stroke-width="0.8" opacity="0.2" />
-      <line x1="-15" y1="-12" x2="-20" y2="5" stroke="${TEAL}" stroke-width="0.8" opacity="0.2" />
-      <line x1="15" y1="-12" x2="20" y2="5" stroke="${TEAL}" stroke-width="0.8" opacity="0.2" />
-      <line x1="-20" y1="5" x2="-10" y2="18" stroke="${TEAL}" stroke-width="0.8" opacity="0.2" />
-      <line x1="20" y1="5" x2="10" y2="18" stroke="${TEAL}" stroke-width="0.8" opacity="0.2" />
-      <!-- Label -->
-      <text x="55" y="5" fill="${TEAL}" font-family="Arial, sans-serif" font-size="11" font-weight="bold" opacity="0.5">AI</text>
-    </g>
-  `;
-
-  // Floating particles
-  const particles = [];
-  for (let i = 0; i < 30; i++) {
-    const px = Math.random() * WIDTH;
-    const py = Math.random() * HEIGHT;
-    const pr = 1 + Math.random() * 2;
-    const popacity = 0.1 + Math.random() * 0.3;
-    const pcolor = Math.random() > 0.5 ? TEAL : EMERALD;
-    particles.push(`<circle cx="${px}" cy="${py}" r="${pr}" fill="${pcolor}" opacity="${popacity}" />`);
-  }
-
-  // Main title text
-  const title = `
-    <g filter="url(#textGlow)">
-      <text x="${WIDTH / 2}" y="100" 
-            text-anchor="middle" 
-            fill="${WHITE}" 
-            font-family="Arial, Helvetica, sans-serif" 
-            font-size="64" 
-            font-weight="900"
-            letter-spacing="8">
-        CONFIDEX AI
-      </text>
-    </g>
-    <!-- Subtle underline accent -->
-    <line x1="${WIDTH/2 - 220}" y1="115" x2="${WIDTH/2 + 220}" y2="115" 
-          stroke="url(#shieldBorder)" stroke-width="2" opacity="0.4" />
-  `;
-
-  // Subtitle text
-  const subtitle = `
-    <text x="${WIDTH / 2}" y="${HEIGHT - 100}" 
-          text-anchor="middle" 
-          fill="${TEAL}" 
-          font-family="Arial, Helvetica, sans-serif" 
-          font-size="22" 
-          font-weight="400"
-          letter-spacing="3"
-          opacity="0.85">
-      Privacy-Preserving AI Deal Room on SKALE
-    </text>
-  `;
-
-  // SKALE Hackathon badge
-  const badgeX = WIDTH - 200;
-  const badgeY = HEIGHT - 70;
-  const badge = `
-    <g transform="translate(${badgeX}, ${badgeY})">
-      <rect x="0" y="0" width="180" height="44" rx="22" 
-            fill="${NAVY_DARK}" stroke="${TEAL}" stroke-width="1.5" opacity="0.9" />
-      <text x="90" y="28" 
-            text-anchor="middle" 
-            fill="${TEAL}" 
-            font-family="Arial, Helvetica, sans-serif" 
-            font-size="13" 
-            font-weight="700"
-            letter-spacing="1">
-        SKALE Hackathon 2026
-      </text>
-    </g>
-  `;
-
-  // Decorative corner accents
-  const cornerAccents = `
-    <!-- Top-left corner -->
-    <path d="M 30 30 L 30 80" stroke="${TEAL}" stroke-width="1.5" opacity="0.3" />
-    <path d="M 30 30 L 80 30" stroke="${TEAL}" stroke-width="1.5" opacity="0.3" />
-    <!-- Top-right corner -->
-    <path d="M ${WIDTH - 30} 30 L ${WIDTH - 30} 80" stroke="${TEAL}" stroke-width="1.5" opacity="0.3" />
-    <path d="M ${WIDTH - 30} 30 L ${WIDTH - 80} 30" stroke="${TEAL}" stroke-width="1.5" opacity="0.3" />
-    <!-- Bottom-left corner -->
-    <path d="M 30 ${HEIGHT - 30} L 30 ${HEIGHT - 80}" stroke="${TEAL}" stroke-width="1.5" opacity="0.3" />
-    <path d="M 30 ${HEIGHT - 30} L 80 ${HEIGHT - 30}" stroke="${TEAL}" stroke-width="1.5" opacity="0.3" />
-    <!-- Bottom-right corner -->
-    <path d="M ${WIDTH - 30} ${HEIGHT - 30} L ${WIDTH - 30} ${HEIGHT - 80}" stroke="${TEAL}" stroke-width="1.5" opacity="0.3" />
-    <path d="M ${WIDTH - 30} ${HEIGHT - 30} L ${WIDTH - 80} ${HEIGHT - 30}" stroke="${TEAL}" stroke-width="1.5" opacity="0.3" />
-  `;
-
-  // Assemble full SVG
-  const svg = `<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${WIDTH} ${HEIGHT}" width="${WIDTH}" height="${HEIGHT}">
-  ${defs}
-  ${background}
-  ${bokeh}
-  ${cornerAccents}
-  ${dataStreams.join('\n  ')}
-  ${binaryParticles.join('\n  ')}
-  ${blockchain}
-  ${shieldGlow}
-  ${shield}
-  ${innerShield}
-  ${circuitry}
-  ${lock}
-  ${brain}
-  ${particles.join('\n  ')}
-  ${title}
-  ${subtitle}
-  ${badge}
-</svg>`;
-
-  return svg;
+// Helper: draw rounded rect as SVG
+function svgRect(x, y, w, h, fill, rx = 0, opacity = 1) {
+  return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${fill}" opacity="${opacity}"/>`;
 }
 
-async function main() {
-  console.log('Building SVG thumbnail...');
-  const svgContent = buildSVG();
-  
-  // Save SVG for reference
-  const svgPath = outputPath.replace('.png', '.svg');
-  fs.writeFileSync(svgPath, svgContent);
-  console.log(`SVG saved to ${svgPath}`);
-  
-  // Convert to PNG using Sharp
-  console.log('Converting to PNG with Sharp...');
-  
-  const pngBuffer = await sharp(Buffer.from(svgContent), { density: 150 })
-    .resize(1280, 720)
-    .png()
-    .toBuffer();
-  
-  fs.writeFileSync(outputPath, pngBuffer);
-  console.log(`PNG thumbnail saved to ${outputPath}`);
-  console.log(`File size: ${(pngBuffer.length / 1024).toFixed(1)} KB`);
+// Helper: draw circle
+function svgCircle(cx, cy, r, fill, opacity = 1) {
+  return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${fill}" opacity="${opacity}"/>`;
 }
 
-main().catch(err => {
-  console.error('Error:', err);
-  process.exit(1);
+// Helper: draw line
+function svgLine(x1, y1, x2, y2, stroke, sw = 2, opacity = 1) {
+  return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${stroke}" stroke-width="${sw}" opacity="${opacity}"/>`;
+}
+
+// Build the SVG
+const elements = [];
+
+// Background gradient
+elements.push(`
+<defs>
+  <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#0a0f1e"/>
+    <stop offset="50%" stop-color="#0d1526"/>
+    <stop offset="100%" stop-color="#060a12"/>
+  </linearGradient>
+  <linearGradient id="shield" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#10b981" stop-opacity="0.15"/>
+    <stop offset="100%" stop-color="#14b8a6" stop-opacity="0.05"/>
+  </linearGradient>
+  <linearGradient id="shieldBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#10b981"/>
+    <stop offset="100%" stop-color="#14b8a6"/>
+  </linearGradient>
+  <linearGradient id="glowLine" x1="0%" y1="0%" x2="100%" y2="0%">
+    <stop offset="0%" stop-color="#10b981" stop-opacity="0"/>
+    <stop offset="50%" stop-color="#14b8a6" stop-opacity="0.8"/>
+    <stop offset="100%" stop-color="#10b981" stop-opacity="0"/>
+  </linearGradient>
+  <filter id="glow">
+    <feGaussianBlur stdDeviation="8" result="blur"/>
+    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="softGlow">
+    <feGaussianBlur stdDeviation="20" result="blur"/>
+    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+</defs>
+`);
+
+// BG
+elements.push(svgRect(0, 0, W, H, 'url(#bg)'));
+
+// Subtle grid
+for (let i = 0; i < W; i += 80) {
+  elements.push(svgLine(i, 0, i, H, '#1e293b', 0.5, 0.1));
+}
+for (let i = 0; i < H; i += 80) {
+  elements.push(svgLine(0, i, W, i, '#1e293b', 0.5, 0.1));
+}
+
+// Glow blobs
+elements.push(svgCircle(300, 360, 250, '#10b981', 0.06));
+elements.push(svgCircle(980, 300, 200, '#14b8a6', 0.05));
+elements.push(svgCircle(640, 400, 180, '#059669', 0.04));
+
+// Blockchain nodes on left side
+const leftNodes = [[80, 200], [120, 350], [90, 500], [180, 280], [160, 430]];
+leftNodes.forEach(([x, y]) => {
+  elements.push(svgCircle(x, y, 6, '#10b981', 0.7));
+  elements.push(svgCircle(x, y, 12, '#10b981', 0.15));
 });
+
+// Connect left nodes
+for (let i = 0; i < leftNodes.length - 1; i++) {
+  elements.push(svgLine(leftNodes[i][0], leftNodes[i][1], leftNodes[i+1][0], leftNodes[i+1][1], '#10b981', 1.5, 0.3));
+}
+
+// Blockchain nodes on right side
+const rightNodes = [[1100, 200], [1140, 350], [1110, 500], [1200, 280], [1180, 430]];
+rightNodes.forEach(([x, y]) => {
+  elements.push(svgCircle(x, y, 6, '#14b8a6', 0.7));
+  elements.push(svgCircle(x, y, 12, '#14b8a6', 0.15));
+});
+for (let i = 0; i < rightNodes.length - 1; i++) {
+  elements.push(svgLine(rightNodes[i][0], rightNodes[i][1], rightNodes[i+1][0], rightNodes[i+1][1], '#14b8a6', 1.5, 0.3));
+}
+
+// Data streams (binary)
+for (let y = 150; y < 600; y += 40) {
+  elements.push(`<text x="250" y="${y}" font-family="monospace" font-size="10" fill="#10b981" opacity="0.15">01101001</text>`);
+  elements.push(`<text x="${W - 350}" y="${y + 20}" font-family="monospace" font-size="10" fill="#14b8a6" opacity="0.15">10010110</text>`);
+}
+
+// Center hexagonal shield (approximated with polygon)
+const cx = 640, cy = 370, s = 130;
+const hex = [];
+for (let i = 0; i < 6; i++) {
+  const angle = (Math.PI / 3) * i - Math.PI / 6;
+  hex.push(`${cx + s * Math.cos(angle)},${cy + s * Math.sin(angle)}`);
+}
+elements.push(`<polygon points="${hex.join(' ')}" fill="url(#shield)" stroke="url(#shieldBorder)" stroke-width="2.5" filter="url(#glow)"/>`);
+
+// Inner shield
+const s2 = 100;
+const hex2 = [];
+for (let i = 0; i < 6; i++) {
+  const angle = (Math.PI / 3) * i - Math.PI / 6;
+  hex2.push(`${cx + s2 * Math.cos(angle)},${cy + s2 * Math.sin(angle)}`);
+}
+elements.push(`<polygon points="${hex2.join(' ')}" fill="none" stroke="#10b981" stroke-width="1" opacity="0.3"/>`);
+
+// Lock icon (simplified path)
+elements.push(`
+<g transform="translate(${cx - 25}, ${cy - 15})">
+  <rect x="5" y="25" width="40" height="32" rx="4" fill="#10b981" opacity="0.9"/>
+  <path d="M15 25 V18 A15 15 0 0 1 35 18 V25" fill="none" stroke="#10b981" stroke-width="4" stroke-linecap="round" opacity="0.9"/>
+  <circle cx="25" cy="40" r="5" fill="#060a12"/>
+  <rect x="23" y="42" width="4" height="8" rx="1" fill="#060a12"/>
+</g>
+`);
+
+// Title: CONFIDEX AI
+elements.push(`
+<text x="${W/2}" y="100" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="62" fill="white" letter-spacing="8">
+  CONFIDEX AI
+</text>
+`);
+// Teal glow text (behind, offset)
+elements.push(`
+<text x="${W/2}" y="100" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="62" fill="#10b981" opacity="0.3" letter-spacing="8" filter="url(#softGlow)">
+  CONFIDEX AI
+</text>
+`);
+
+// Subtitle
+elements.push(`
+<text x="${W/2}" y="145" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="20" fill="#5eead4" opacity="0.9" letter-spacing="2">
+  Privacy-Preserving AI Deal Room on SKALE
+</text>
+`);
+
+// Horizontal accent line
+elements.push(svgRect(340, 160, 600, 2, 'url(#glowLine)'));
+
+// Feature labels
+const features = [
+  { icon: '🛡️', text: 'BITE Encryption', x: 180, y: 570 },
+  { icon: '🧠', text: 'AI Due Diligence', x: 440, y: 570 },
+  { icon: '🔒', text: 'Confidential Tokens', x: 720, y: 570 },
+  { icon: '👁️', text: 'Selective Disclosure', x: 1000, y: 570 },
+];
+
+features.forEach(({ icon, text, x, y }) => {
+  elements.push(`
+    <rect x="${x - 70}" y="${y - 20}" width="140" height="40" rx="20" fill="#10b981" opacity="0.1" stroke="#10b981" stroke-width="1" stroke-opacity="0.3"/>
+    <text x="${x}" y="${y + 6}" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#5eead4" font-weight="600">${text}</text>
+  `);
+});
+
+// Bottom badge
+elements.push(`
+<rect x="${W - 290}" y="${H - 65}" width="260" height="40" rx="20" fill="#10b981" opacity="0.15" stroke="#10b981" stroke-width="1" stroke-opacity="0.4"/>
+<text x="${W - 160}" y="${H - 39}" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#10b981" font-weight="700">SKALE Hackathon 2026</text>
+`);
+
+// Corner brackets
+const bs = 30, bo = 20;
+// Top-left
+elements.push(`<path d="M${bo},${bo + bs} L${bo},${bo} L${bo + bs},${bo}" fill="none" stroke="#10b981" stroke-width="2" opacity="0.4"/>`);
+// Top-right
+elements.push(`<path d="M${W - bo - bs},${bo} L${W - bo},${bo} L${W - bo},${bo + bs}" fill="none" stroke="#14b8a6" stroke-width="2" opacity="0.4"/>`);
+// Bottom-left
+elements.push(`<path d="M${bo},${H - bo - bs} L${bo},${H - bo} L${bo + bs},${H - bo}" fill="none" stroke="#14b8a6" stroke-width="2" opacity="0.4"/>`);
+// Bottom-right
+elements.push(`<path d="M${W - bo - bs},${H - bo} L${W - bo},${H - bo} L${W - bo},${H - bo - bs}" fill="none" stroke="#10b981" stroke-width="2" opacity="0.4"/>`);
+
+const svgStr = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${elements.join('\n')}</svg>`;
+
+// Render to PNG
+const outPath = path.join(import.meta.dirname, 'thumbnail.png');
+await sharp(Buffer.from(svgStr))
+  .resize(W, H)
+  .png({ quality: 95 })
+  .toFile(outPath);
+
+console.log(`Thumbnail saved: ${outPath}`);
