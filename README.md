@@ -478,9 +478,40 @@ Zustand store (`src/lib/confidex-store.ts`) manages:
 | **Blockchain Client** | ethers.js | 6.15 |
 | **SKALE Integration** | @skalenetwork/bite | 0.8.2 |
 | **AI Model** | GLM-4-Plus (via z-ai-web-dev-sdk) | 0.1.5 |
+| **Real-Time Backend** | [SpacetimeDB](https://spacetimedb.com) v2.4 (Rust module) | wasm32 |
+| **AI Agent Daemon** | Python (httpx + SpacetimeDB SDK) | 3.10+ |
 | **Voice (TTS)** | Deepgram Aura | — |
 | **Notifications** | Sonner | 2.0 |
 | **Build Output** | Next.js Standalone | Docker-ready |
+
+## Why SpacetimeDB?
+
+Confidex AI was built for the SKALE BITE V2 hackathon with a **simulated AI pipeline** — analysis requests were hardcoded and the frontend faked AI responses. To turn this into a production-grade confidential deal room, we needed a real-time backend that could coordinate AI agents, track document access, and maintain an immutable audit trail. SpacetimeDB was the choice for five reasons:
+
+### 1. Real AI Agents, Not Simulations
+
+The original `requestAIAnalysis` CTX call on SKALE returned encrypted data to the agent, but the analysis itself was stubbed — the frontend had hardcoded JSON responses. SpacetimeDB's `AnalysisRequest` table gives AI agents a real task queue: agents subscribe to pending requests, process the analysis (currently a simulated GLM-4 inference, ready for real model integration), and write results back via the `submit_analysis` reducer. The Python agent daemon at `spacetime/agent.py` runs as a standalone process and polls for work continuously.
+
+### 2. Document Access as a Subscribable State
+
+`AuditorAssignment` entries with expiry blocks were previously checked manually by the frontend. With SpacetimeDB, the `grant_access` reducer creates a time-bound assignment that auto-invalidates when `expires_at` passes — and the frontend subscribes to `AuditorAssignment` so the UI reflects access changes instantly. No polling, no re-fetch logic.
+
+### 3. Immutable Audit Trail On-Ramp
+
+The `AccessLog` table tracks every View, Download, Analyze, and Revoke action with an immutable append-only pattern. In a regulated M&A context, this audit trail needs to survive frontend reboots, browser closures, and network drops. SpacetimeDB persists it on the server, and any authorized client can subscribe to the feed. This replaces a localStorage audit log that was purely cosmetic.
+
+### 4. Multi-Agent Coordination
+
+Future versions will have multiple AI agents (financial analyst, legal reviewer, IP specialist) collaborating on a deal room. SpacetimeDB's shared table model makes this trivial — agents are independent clients that subscribe to `AnalysisRequest` filtered by their specialization, process in parallel, and write results to a shared `AnalysisResult` table. The `access_log` reducer ensures every data access is recorded.
+
+### 5. SKALE + SpacetimeDB: Optimal Division of Labor
+
+```
+SKALE handles: TE-encrypted document storage, threshold decryption, token economics, settlement
+SpacetimeDB handles: Request queuing, agent coordination, access state, audit trail, real-time UI sync
+```
+
+Confidential documents stay encrypted on SKALE's BITE V2 — SpacetimeDB never sees plaintext. But the coordination layer (who can access what, what analysis is pending, what results were produced) lives in SpacetimeDB for speed. The module lives in `spacetime/` and compiles to WASM.
 
 ---
 
