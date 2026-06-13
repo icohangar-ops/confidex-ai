@@ -359,7 +359,7 @@ function slide8() {
   ${trackSvg}
   <!-- Open source badge -->
   <rect x="310" y="420" width="660" height="44" rx="10" fill="${CARD_BG}" stroke="${TEAL}" stroke-width="1"/>
-  <text x="640" y="448" text-anchor="middle" font-family="monospace" font-size="15" font-weight="600" fill="${TEAL}">github.com/Cubiczan/confidex-ai</text>
+  <text x="640" y="448" text-anchor="middle" font-family="monospace" font-size="15" font-weight="600" fill="${TEAL}">github.com/icohangar-ops/confidex-ai</text>
   <!-- Thank You -->
   <text x="640" y="550" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="56" font-weight="700" fill="${WHITE}" letter-spacing="4">Thank You</text>
   <rect x="540" y="565" width="200" height="3" rx="1.5" fill="${TEAL}"/>
