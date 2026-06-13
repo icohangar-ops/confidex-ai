@@ -114,9 +114,12 @@ contract DealRoomFactory is Ownable {
     // ──────────────────── Deal Room Tracking ────────────────────
 
     /// @notice Track a newly created deal room
+    /// @dev Restricted to the owner. Without an access guard any caller could
+    ///      register arbitrary addresses as "deal rooms" and pollute the
+    ///      registry / creator mappings that downstream consumers trust.
     /// @param dealRoom Address of the deal room contract
     /// @param name Name of the deal room
-    function trackDealRoom(address dealRoom, string calldata name) external {
+    function trackDealRoom(address dealRoom, string calldata name) external onlyOwner {
         require(dealRoom != address(0), "Zero address");
         require(!_isDealRoom[dealRoom], "Already tracked");
 

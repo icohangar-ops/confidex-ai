@@ -21,6 +21,7 @@ pipeline (e.g., GLM-4 API, OpenAI, local model).
 import json
 import logging
 import os
+import re
 import time
 import uuid
 from dataclasses import dataclass, field, asdict
@@ -41,12 +42,38 @@ logger = logging.getLogger("confidex-agent")
 # Configuration
 # ──────────────────────────────────────────────
 
+# agent_id is interpolated into SQL queries against SpacetimeDB. The HTTP SQL
+# endpoint does not support bound parameters, so the only safe option is to
+# constrain the identifier to a strict allowlist. Anything outside [A-Za-z0-9._-]
+# (e.g. quotes, spaces, semicolons) could break out of the string literal and
+# inject arbitrary SQL — see _fetch_pending_requests().
+_AGENT_ID_RE = re.compile(r"^[A-Za-z0-9._-]{1,128}$")
+
+
+def _validate_agent_id(agent_id: str) -> str:
+    """Validate an agent_id before it is ever placed into a SQL string.
+
+    Raises ValueError on anything that is not a short alphanumeric identifier,
+    eliminating the SQL-injection vector via the AGENT_ID environment variable.
+    """
+    if not isinstance(agent_id, str) or not _AGENT_ID_RE.match(agent_id):
+        raise ValueError(
+            "Invalid AGENT_ID: must match ^[A-Za-z0-9._-]{1,128}$ "
+            "(no quotes, whitespace, or SQL metacharacters allowed)"
+        )
+    return agent_id
+
+
 @dataclass
 class Config:
     host: str = os.environ.get("SPACETIMEDB_HOST", "http://localhost:3000")
     poll_interval: int = int(os.environ.get("POLL_INTERVAL", "5"))
     agent_id: str = os.environ.get("AGENT_ID", "ai-agent-001")
     database: str = os.environ.get("SPACETIMEDB_DATABASE", "confidex")
+
+    def __post_init__(self):
+        # Fail fast if the operator-supplied identity is unsafe to interpolate.
+        _validate_agent_id(self.agent_id)
 
 
 # ──────────────────────────────────────────────
@@ -238,9 +265,12 @@ class ConfidexAgent:
         Uses SQL subscription query via SpacetimeDB HTTP API.
         """
         try:
+            # Re-validate at the point of interpolation (defense in depth):
+            # config.agent_id may have been reassigned after construction.
+            agent_id = _validate_agent_id(self.config.agent_id)
             query = (
                 f"SELECT * FROM AnalysisRequest "
-                f"WHERE status = 'Pending' AND agent_id = '{self.config.agent_id}'"
+                f"WHERE status = 'Pending' AND agent_id = '{agent_id}'"
             )
             rows = self.client.subscribe(query)
             return rows or []
@@ -292,8 +322,11 @@ class ConfidexAgent:
     def _fetch_doc_metadata(self, doc_id: int) -> Optional[dict]:
         """Fetch document metadata for context."""
         try:
+            # Coerce to int before interpolation so a non-numeric doc_id can
+            # never inject SQL even if the upstream row is malformed.
+            doc_id_int = int(doc_id)
             rows = self.client.subscribe(
-                f"SELECT * FROM Document WHERE doc_id = {doc_id}"
+                f"SELECT * FROM Document WHERE doc_id = {doc_id_int}"
             )
             if rows:
                 return rows[0]

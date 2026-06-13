@@ -9,6 +9,12 @@ const config = {
     },
   },
   networks: {
+    hardhat: {
+      // The BITE CallbackSender mock requires balance >= GAS_LIMIT * tx.gasprice
+      // before delivering a callback. Zeroing the base fee lets tests trigger
+      // callbacks deterministically without pre-funding each ephemeral sender.
+      initialBaseFeePerGas: 0,
+    },
     biteSandbox: {
       url: process.env.ENDPOINT || "https://base-sepolia-testnet.skalenodes.com/v1/bite-v2-sandbox",
       accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],

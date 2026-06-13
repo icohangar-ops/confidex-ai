@@ -36,6 +36,13 @@ contract DealStakeToken is ERC20, Ownable, IBiteSupplicant {
         uint256 amount;
     }
 
+    // CallbackSender addresses authorized to invoke onDecrypt(). BITE.submitCTX()
+    // returns a unique, single-use callback-sender contract per CTX; only that
+    // address may deliver the matching decryption callback. Without this the
+    // entire threshold-encryption guarantee is bypassable (anyone could call
+    // onDecrypt() with crafted decryptedArguments and move stake tokens).
+    mapping(address => bool) private _pendingCallbackSenders;
+
     // ──────────────────── Events ────────────────────
     event StakeIssued(address indexed recipient, uint256 amount);
     event BatchStakeIssued(address[] recipients, uint256[] amounts);
@@ -132,12 +139,16 @@ contract DealStakeToken is ERC20, Ownable, IBiteSupplicant {
         plaintextArgs[0] = abi.encode(msg.sender);
         plaintextArgs[1] = abi.encode(to);
 
-        BITE.submitCTX(
+        address callbackSender = BITE.submitCTX(
             BITE.SUBMIT_CTX_ADDRESS,
             gasLimit,
             encryptedArgs,
             plaintextArgs
         );
+
+        // Authorize the unique callback sender returned for this CTX so that
+        // only it can deliver the matching onDecrypt() callback.
+        _pendingCallbackSenders[callbackSender] = true;
 
         emit EncryptedTransferInitiated(msg.sender, to);
     }
@@ -149,6 +160,13 @@ contract DealStakeToken is ERC20, Ownable, IBiteSupplicant {
         bytes[] calldata decryptedArguments,
         bytes[] calldata plaintextArguments
     ) external override {
+        // Caller-identity guard: only a callback sender registered by a prior
+        // encryptedTransfer() CTX submission may invoke this. This prevents an
+        // arbitrary EOA/contract from spoofing onDecrypt() with crafted
+        // arguments and moving stake tokens. The sender is single-use.
+        require(_pendingCallbackSenders[msg.sender], "Caller not BITE callback");
+        delete _pendingCallbackSenders[msg.sender];
+
         require(decryptedArguments.length >= 3, "Invalid decrypted args");
         require(plaintextArguments.length >= 2, "Invalid plaintext args");
 

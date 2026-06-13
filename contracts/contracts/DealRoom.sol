@@ -62,6 +62,13 @@ contract DealRoom is Ownable, IBiteSupplicant {
     // address => isRegistered AI agent
     mapping(address => bool) private _aiAgents;
 
+    // CallbackSender addresses authorized to invoke onDecrypt(). BITE.submitCTX()
+    // returns a unique, single-use callback-sender contract per CTX; only that
+    // address may deliver the matching decryption callback. Without this guard
+    // anyone could call onDecrypt() with crafted decryptedArguments and corrupt
+    // re-encrypted document data, bypassing threshold encryption entirely.
+    mapping(address => bool) private _pendingCallbackSenders;
+
     // ──────────────────── Events ────────────────────
     event DocumentUploaded(uint256 indexed documentId, address indexed uploader, uint256 timestamp);
     event DocumentAccessGranted(uint256 indexed documentId, address indexed agent);
@@ -129,12 +136,16 @@ contract DealRoom is Ownable, IBiteSupplicant {
         bytes[] memory plaintextArgs = new bytes[](1);
         plaintextArgs[0] = abi.encode(documentId);
 
-        BITE.submitCTX(
+        address callbackSender = BITE.submitCTX(
             BITE.SUBMIT_CTX_ADDRESS,
             gasLimit,
             encryptedArgs,
             plaintextArgs
         );
+
+        // Authorize the unique callback sender returned for this CTX so that
+        // only it can deliver the matching onDecrypt() callback.
+        _pendingCallbackSenders[callbackSender] = true;
 
         emit DocumentAccessGranted(documentId, msg.sender);
     }
@@ -146,6 +157,13 @@ contract DealRoom is Ownable, IBiteSupplicant {
         bytes[] calldata decryptedArguments,
         bytes[] calldata plaintextArguments
     ) external override {
+        // Caller-identity guard: only a callback sender registered by a prior
+        // grantDocumentAccessToAgent() CTX submission may invoke this. Prevents
+        // an arbitrary EOA/contract from spoofing onDecrypt() with crafted
+        // arguments and overwriting re-encrypted document data. Single-use.
+        require(_pendingCallbackSenders[msg.sender], "Caller not BITE callback");
+        delete _pendingCallbackSenders[msg.sender];
+
         require(decryptedArguments.length >= 2, "Invalid decrypted args");
         require(plaintextArguments.length >= 1, "Invalid plaintext args");
 
