@@ -541,7 +541,7 @@ npm install
 npx hardhat compile
 
 # Deploy to SKALE BITE V2 Sandbox
-npx hardhat run scripts/deploy.ts --network skale-bite
+npx hardhat run scripts/deploy.js --network biteSandbox
 ```
 
 Deployment will output:
